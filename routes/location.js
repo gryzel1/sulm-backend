@@ -1,15 +1,23 @@
 var express = require('express');
+var XMLHttpRequest = require('xhr2');
 var router = express.Router();
 
 lightsLocations = [{ "latitude": 43.602049, "longitude": 1.454338, "id":0 },{ "latitude": 43.59716580319137, "longitude": 1.4600135524428226, "id":0 },{ "latitude": 43.605399, "longitude": 1.458385, "id":0 }];
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
     
-    if(req.body.latitude != null || req.body.latitude != ""){
+    if (req.body.latitude != null || req.body.latitude != "") {
         latitude = req.body.latitude;
         longitude = req.body.longitude;
 
         nearbyLights = getNearbyLights(latitude, longitude);
+
+        // http post request
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://distant/api/lights');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(nearbyLights));
+
         res.send(nearbyLights);
     }else{
         res.status(500).send("Location missing in body.")
