@@ -12,7 +12,6 @@ router.post('/', function (req, res, next) {
 
         nearbyLights = getNearbyLights(latitude, longitude);
 
-        // http post request
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'http://distant/api/lights');
         xhr.setRequestHeader('Content-Type', 'application/json');
