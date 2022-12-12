@@ -2,7 +2,7 @@ var express = require('express');
 var XMLHttpRequest = require('xhr2');
 var router = express.Router();
 
-lightsLocations = [{ "latitude": 43.602049, "longitude": 1.454338, "id":0 },{ "latitude": 43.59716580319137, "longitude": 1.4600135524428226, "id":0 },{ "latitude": 43.605399, "longitude": 1.458385, "id":0 }];
+lightsLocations = [{ "latitude": 43.602049, "longitude": 1.454338, "id":4 },{ "latitude": 43.59716580319137, "longitude": 1.4600135524428226, "id":0 }];
 
 router.post('/', function (req, res, next) {
     
@@ -12,10 +12,14 @@ router.post('/', function (req, res, next) {
 
         nearbyLights = getNearbyLights(latitude, longitude);
 
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://distant/api/lights');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(nearbyLights));
+        console.log(nearbyLights);
+
+        nearbyLights.forEach(light => {
+            console.log(light);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://192.168.221.28/" + light.id + "/on", true);
+            xhr.send();
+        });
 
         res.send(nearbyLights);
     }else{
