@@ -12,10 +12,9 @@ router.post('/', function (req, res, next) {
 
         nearbyLights = getNearbyLights(latitude, longitude);
 
-        console.log(nearbyLights);
+        console.log("[POST REQUEST] Found nearby lights "+nearbyLights);
 
         nearbyLights.forEach(light => {
-            console.log(light);
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "http://192.168.221.28/" + light.id + "/on", true);
             xhr.send();
